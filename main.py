@@ -1,19 +1,25 @@
 from FactSheet import FactSheet
 
 
-def main():
+def main() -> None:
     fs = FactSheet(5, 3)
 
     print(
-        "Im Folgenden werden Ihnen 15 Patienten vorgestellt, die in fünf Altersgruppen (Patienten in den 20ern, 30ern, 40ern, 50ern und 60ern) eingeteilt sind. Zu jedem Patienten werden Ihnen der Name, das Alter, der Beruf, eine Eigenschaft sowie eine Diagnose genannt. Prägen Sie sich diese Informationen so gut wie möglich ein. Für das Einprägen haben Sie 6 Minuten Zeit. Während dieser Zeit dürfen Sie keine Notizen machen."
+        "Im Folgenden werden Ihnen 15 Patienten vorgestellt, die in fünf Altersgruppen "
+        "(Patienten in den 20ern, 30ern, 40ern, 50ern und 60ern) eingeteilt sind. "
+        "Zu jedem Patienten werden Ihnen der Name, das Alter, der Beruf, eine Eigenschaft "
+        "sowie eine Diagnose genannt. Prägen Sie sich diese Informationen so gut wie möglich ein. "
+        "Für das Einprägen haben Sie 6 Minuten Zeit. Während dieser Zeit dürfen Sie keine Notizen machen."
     )
     print()
     print(fs)
-    input()
+    input("Drücken Sie Enter, um fortzufahren...")
     print("*** Jetzt folgen 60 Minuten andere Aufgaben ***")
-    input()
+    input("Drücken Sie Enter, wenn die Zeit abgelaufen ist...")
     print(
-        "Sie haben vorhin Informationen über 15 Patienten gelernt. Beantworten Sie nun die folgenden 20 Fragen dazu. Für die Beantwortung der Fragen haben Sie 7 Minuten Zeit."
+        "Sie haben vorhin Informationen über 15 Patienten gelernt. "
+        "Beantworten Sie nun die folgenden 20 Fragen dazu. "
+        "Für die Beantwortung der Fragen haben Sie 7 Minuten Zeit."
     )
     print()
     print("TODO: Fragen generieren")

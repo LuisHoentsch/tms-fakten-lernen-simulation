@@ -1,63 +1,73 @@
-NAME_GROUPS = [
-    ["Bäcker", "Mahler", "Müller"],
-    ["Sanchez", "Gonzales", "Martinez", "Silva"],
-    ["Rahim ", "Yldirim", "Özdak ", "Shahin ", "Ogris "],
-    ["Althaus", "Hauser", "Neuhaus"],
-    ["Rothstein", "Weißer", "Grüning"],
-    ["Kreutzer", "Schiffer", "Fährmann"],
-]
+from models import Job
 
-JOB_GROUPS = [
-    [
-        ["Apotheker", "Apothekerin"],
-        ["Hausarzt", "Hausärztin"],
-        ["Hautarzt", "Hautärztin"],
-        ["Kardiologe", "Kardiologin"],
-        ["Neurologe", "Neurologin"],
-        ["Internist", "Internistin"],
-        ["Gastroenterologe", "Gastroenterologin"],
-        ["Augenarzt", "Augenärztin"],
-        ["Optiker", "Optikerin"],
-        ["Zahnarzt", "Zahnärztin"],
-    ],
-    [
-        ["Stylist", "Stylistin"],
-        ["Friseur", "Friseurin"],
-        ["MakeUp-Artist", "MakeUp-Artist"],
-        ["Designer", "Designerin"],
-    ],
-    [["Schreiner", "Schreinerin"], ["Tischler", "Tischlerin"], ["Maler", "Malerin"]],
-    [
-        ["Bauarbeiter", "Bauarbeiterin"],
-        ["Architekt", "Architektin"],
-        ["Bauleiter", "Bauleiterin"],
-        ["Klempner", "Klempnerin"],
-    ],
-    [
-        ["Hausmeister", "Hausmeisterin"],
-        ["Gärtner", "Gärtnerin"],
-        ["Fensterputzer", "Fensterputzerin"],
-    ],
-    [
-        ["Chemiker", "Chemikerin"],
-        ["Physiker", "Physikerin"],
-        ["Biologe", "Biologin"],
-        ["Mathematiker", "Mathematikerin"],
-        ["Informatiker", "Informatikerin"],
-    ],
-    [["Professor", "Professorin"], ["Doktorand", "Doktorandin"], ["HiWi", "HiWi"]],
-    [
-        ["CEO", "CEO"],
-        ["Investor", "Investorin"],
-        ["Manager", "Managerin"],
-        ["Personalchef", "Personalchefin"],
-        ["Filialleiter", "Filialleiterin"],
-    ],
-]
+NAME_GROUPS = (
+    ("Bäcker", "Mahler", "Müller"),
+    ("Sanchez", "Gonzales", "Martinez", "Silva"),
+    ("Rahim", "Yldirim", "Özdak", "Shahin", "Ogris"),
+    ("Althaus", "Hauser", "Neuhaus"),
+    ("Rothstein", "Weißer", "Grüning"),
+    ("Kreutzer", "Schiffer", "Fährmann"),
+)
 
-AGES = [f"Ca. {age} Jahre" for age in [20, 30, 40, 50, 60, 70]]
+JOB_GROUPS = (
+    (
+        Job("Apotheker", "Apothekerin"),
+        Job("Hausarzt", "Hausärztin"),
+        Job("Hautarzt", "Hautärztin"),
+        Job("Kardiologe", "Kardiologin"),
+        Job("Neurologe", "Neurologin"),
+        Job("Internist", "Internistin"),
+        Job("Gastroenterologe", "Gastroenterologin"),
+        Job("Augenarzt", "Augenärztin"),
+        Job("Optiker", "Optikerin"),
+        Job("Zahnarzt", "Zahnärztin"),
+    ),
+    (
+        Job("Stylist", "Stylistin"),
+        Job("Friseur", "Friseurin"),
+        Job("MakeUp-Artist", "MakeUp-Artist"),
+        Job("Designer", "Designerin"),
+    ),
+    (
+        Job("Schreiner", "Schreinerin"),
+        Job("Tischler", "Tischlerin"),
+        Job("Maler", "Malerin"),
+    ),
+    (
+        Job("Bauarbeiter", "Bauarbeiterin"),
+        Job("Architekt", "Architektin"),
+        Job("Bauleiter", "Bauleiterin"),
+        Job("Klempner", "Klempnerin"),
+    ),
+    (
+        Job("Hausmeister", "Hausmeisterin"),
+        Job("Gärtner", "Gärtnerin"),
+        Job("Fensterputzer", "Fensterputzerin"),
+    ),
+    (
+        Job("Chemiker", "Chemikerin"),
+        Job("Physiker", "Physikerin"),
+        Job("Biologe", "Biologin"),
+        Job("Mathematiker", "Mathematikerin"),
+        Job("Informatiker", "Informatikerin"),
+    ),
+    (
+        Job("Professor", "Professorin"),
+        Job("Doktorand", "Doktorandin"),
+        Job("HiWi", "HiWi"),
+    ),
+    (
+        Job("CEO", "CEO"),
+        Job("Investor", "Investorin"),
+        Job("Manager", "Managerin"),
+        Job("Personalchef", "Personalchefin"),
+        Job("Filialleiter", "Filialleiterin"),
+    ),
+)
 
-SYMPTOMS = [
+AGES = tuple(f"Ca. {age} Jahre" for age in (20, 30, 40, 50, 60, 70))
+
+SYMPTOMS = (
     "Erkältung",
     "Mandelentzündung",
     "Cholera",
@@ -85,9 +95,9 @@ SYMPTOMS = [
     "Zahnschmerzen",
     "Myalgie",
     "Schlaganfall",
-]
+)
 
-SITUATIONS = [
+SITUATIONS = (
     "in Ambulanz",
     "in Notaufnahme",
     "Notfall",
@@ -111,4 +121,4 @@ SITUATIONS = [
     "hilfsbereit",
     "verheiratet",
     "geschieden",
-]
+)
