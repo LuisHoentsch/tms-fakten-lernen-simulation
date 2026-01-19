@@ -14,8 +14,10 @@ def main() -> None:
     print()
     print(fs)
     input("Drücken Sie Enter, um fortzufahren...")
+    print()
     print("*** Jetzt folgen 60 Minuten andere Aufgaben ***")
     input("Drücken Sie Enter, wenn die Zeit abgelaufen ist...")
+    print()
     print(
         "Sie haben vorhin Informationen über 15 Patienten gelernt. "
         "Beantworten Sie nun die folgenden 20 Fragen dazu. "

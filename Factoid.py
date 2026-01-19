@@ -17,9 +17,9 @@ class Factoid:
 
         # Adjust padding values as needed for optimal display
         return (
-            f"{full_name:<15} "
-            f"{self.age:<15} "
-            f"{self.job + ',':<25} "
+            f"{full_name:<20} "
+            f"{self.age:<20} "
+            f"{self.job + ',':<20} "
             f"{self.situation:<20} "
-            f"- {self.symptom}"
+            f"{self.symptom}"
         )
