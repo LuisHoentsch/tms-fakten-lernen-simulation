@@ -9,7 +9,7 @@ from data import QUESTION_TEMPLATES
 class Question:
     question_text: str
     options: List[str]
-    correct_answer: str
+    correct_answer: int
 
 class QuestionGenerator:
     def __init__(self, factoids: List[List[Factoid]]):
@@ -47,7 +47,8 @@ class QuestionGenerator:
         else:
             return []
 
-    def _generate_options(self, correct: str, pool: List[str]) -> List[str]:
+    def _generate_options(self, correct: str, q_type: str) -> List[str]:
+        pool = self._get_pool(q_type)
         options = [x for x in pool if x != correct]
         if len(options) >= 4:
             distractors = random.sample(options, 4)
@@ -103,25 +104,23 @@ class QuestionGenerator:
             attempts += 1
 
             # Pick random template index and random factoid index
-            t_idx = random.randint(0, len(QUESTION_TEMPLATES) - 1)
-            f_idx = random.randint(0, len(self.factoids) - 1)
+            template_id = random.randint(0, len(QUESTION_TEMPLATES) - 1)
+            factoid_id = random.randint(0, len(self.factoids) - 1)
 
-            if (t_idx, f_idx) in used_combinations:
+            if (template_id, factoid_id) in used_combinations:
                 continue
 
-            f = self.factoids[f_idx]
-            template = QUESTION_TEMPLATES[t_idx]
+            factoid = self.factoids[factoid_id]
+            template = QUESTION_TEMPLATES[template_id]
 
-            q_text, correct, q_type = self._format_question(template, f)
-            pool = self._get_pool(q_type)
-
-            options = self._generate_options(correct, pool)
+            question_text, solution, question_type = self._format_question(template, factoid)
+            options = self._generate_options(solution, question_type)
 
             questions.append(Question(
-                question_text=q_text,
+                question_text=question_text,
                 options=options,
-                correct_answer=correct
+                correct_answer=options.index(solution)
             ))
-            used_combinations.add((t_idx, f_idx))
+            used_combinations.add((template_id, factoid_id))
 
         return questions

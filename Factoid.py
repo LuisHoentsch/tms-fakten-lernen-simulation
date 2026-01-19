@@ -14,7 +14,7 @@ class Factoid:
     def __str__(self) -> str:
         salutation = "Herr" if self.gender == Gender.MALE else "Frau"
         full_name = f"{salutation} {self.name}:"
-        formatted_age = f"Ca. {self.age} Jahre"
+        formatted_age = f"ca. {self.age} Jahre"
 
         # Adjust padding values as needed for optimal display
         return (

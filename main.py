@@ -28,14 +28,21 @@ def main() -> None:
 
     qg = QuestionGenerator(fs.factoids)
     questions = qg.generate_questions(20)
+    solutions = []
 
     for i, q in enumerate(questions, 1):
         print(f"{i}. {q.question_text}")
-        for opt in q.options:
-            print(f"   [ ] {opt}")
-        # Debug output for verification
-        print(f"   (Lösung: {q.correct_answer})")
+        for j, opt in enumerate(q.options):
+            print(f"   {["A", "B", "C", "D", "E"][j]})\t{opt}")
+        solutions.append(q.correct_answer)
         print()
+
+    print()
+    input("Drücken Sie Enter, um die Lösungen anzuzeigen...")
+    print()
+
+    for i, s in enumerate(solutions, 1):
+        print(f"{i}.\t{["A", "B", "C", "D", "E"][s]}")
 
 
 if __name__ == "__main__":
