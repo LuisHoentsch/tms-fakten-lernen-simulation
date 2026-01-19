@@ -65,9 +65,9 @@ JOB_GROUPS = (
     ),
 )
 
-AGES = tuple(f"Ca. {age} Jahre" for age in (20, 30, 40, 50, 60, 70))
+AGES = tuple(str(age) for age in (20, 30, 40, 50, 60, 70))
 
-SYMPTOMS = (
+DIAGNOSES = (
     "Erkältung",
     "Mandelentzündung",
     "Cholera",

@@ -1,7 +1,7 @@
 import random
 from typing import List
 from Factoid import Factoid
-from data import NAME_GROUPS, JOB_GROUPS, AGES, SYMPTOMS, SITUATIONS
+from data import NAME_GROUPS, JOB_GROUPS, AGES, DIAGNOSES, SITUATIONS
 from enums import Gender
 from models import Job
 
@@ -25,13 +25,13 @@ class FactSheet:
         name_groups = [list(group) for group in NAME_GROUPS]
         job_groups = [list(group) for group in JOB_GROUPS]
         ages = list(AGES)
-        symptoms = list(SYMPTOMS)
+        diagnoses = list(DIAGNOSES)
         situations = list(SITUATIONS)
 
         random.shuffle(name_groups)
         random.shuffle(job_groups)
         random.shuffle(ages)
-        random.shuffle(symptoms)
+        random.shuffle(diagnoses)
         random.shuffle(situations)
 
         for _ in range(self.n_groups):
@@ -48,7 +48,7 @@ class FactSheet:
                     name_groups.pop(),
                     job_groups.pop(),
                     ages.pop(),
-                    symptoms,
+                    diagnoses,
                     situations,
                 )
             )
@@ -59,7 +59,7 @@ class FactSheet:
         name_group: List[str],
         job_group: List[Job],
         age: str,
-        symptoms: List[str],
+        diagnoses: List[str],
         situations: List[str],
     ) -> List[Factoid]:
         factoid_group: List[Factoid] = []
@@ -72,8 +72,8 @@ class FactSheet:
                 raise ValueError("Not enough names in group")
             if not job_group:
                 raise ValueError("Not enough jobs in group")
-            if not symptoms:
-                raise ValueError("Not enough symptoms globally")
+            if not diagnoses:
+                raise ValueError("Not enough diagnoses globally")
             if not situations:
                 raise ValueError("Not enough situations globally")
 
@@ -86,7 +86,7 @@ class FactSheet:
                     name=name_group.pop(),
                     age=age,
                     job=job_obj.get_title(gender),
-                    symptom=symptoms.pop(),
+                    diagnosis=diagnoses.pop(),
                     situation=situations.pop(),
                 )
             )
