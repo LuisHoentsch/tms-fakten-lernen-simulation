@@ -1,5 +1,5 @@
-from FactSheet import FactSheet
-from questions import QuestionGenerator
+from src.core.factsheet import FactSheet
+from src.core.questions import QuestionGenerator
 
 
 def main() -> None:

@@ -1,9 +1,9 @@
 import random
 from typing import List
-from Factoid import Factoid
-from data import NAME_GROUPS, JOB_GROUPS, AGES, DIAGNOSES, SITUATIONS
-from enums import Gender
-from models import Job
+from src.models.factoid import Factoid
+from src.data.constants import NAME_GROUPS, JOB_GROUPS, AGES, DIAGNOSES, SITUATIONS
+from src.data.enums import Gender
+from src.models.job import Job
 
 
 class FactSheet:

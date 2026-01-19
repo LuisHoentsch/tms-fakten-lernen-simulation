@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enums import Gender
+from src.data.enums import Gender
 
 @dataclass(frozen=True)
 class Job:

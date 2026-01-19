@@ -1,4 +1,4 @@
-from models import Job
+from src.models.job import Job
 
 NAME_GROUPS = (
     ("Bäcker", "Mahler", "Müller"),
