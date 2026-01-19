@@ -1,4 +1,5 @@
 from FactSheet import FactSheet
+from questions import QuestionGenerator
 
 
 def main() -> None:
@@ -24,7 +25,17 @@ def main() -> None:
         "Für die Beantwortung der Fragen haben Sie 7 Minuten Zeit."
     )
     print()
-    print("TODO: Fragen generieren")
+
+    qg = QuestionGenerator(fs.factoids)
+    questions = qg.generate_questions(20)
+
+    for i, q in enumerate(questions, 1):
+        print(f"{i}. {q.question_text}")
+        for opt in q.options:
+            print(f"   [ ] {opt}")
+        # Debug output for verification
+        print(f"   (Lösung: {q.correct_answer})")
+        print()
 
 
 if __name__ == "__main__":
