@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import List, Set, Tuple
 import random
-from enums import Gender
-from Factoid import Factoid
-from data import QUESTION_TEMPLATES
+from src.data.enums import Gender
+from src.models.factoid import Factoid
+from src.data.constants import QUESTION_TEMPLATES
 
 @dataclass
 class Question:
