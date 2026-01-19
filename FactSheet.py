@@ -2,6 +2,8 @@ import random
 from typing import List
 from Factoid import Factoid
 from data import NAME_GROUPS, JOB_GROUPS, AGES, SYMPTOMS, SITUATIONS
+from enums import Gender
+from models import Job
 
 
 class FactSheet:
@@ -11,18 +13,17 @@ class FactSheet:
         self.factoids: List[List[Factoid]] = []
         self._generate_factoids()
 
-    def __str__(self):
-        return_string = ""
-        for i in range(self.n_groups):
-            for j in range(self.n_per_group):
-                return_string += str(self.factoids[i][j]) + "\n"
-            return_string += "\n"
-        return return_string
+    def __str__(self) -> str:
+        blocks = []
+        for group in self.factoids:
+            block = "\n".join(str(factoid) for factoid in group)
+            blocks.append(block)
+        return "\n\n".join(blocks) + "\n"
 
     def _generate_factoids(self):
-
-        name_groups = list(NAME_GROUPS)
-        job_groups = list(JOB_GROUPS)
+        # Create deep copies (lists) of the global data to prevent mutation and allow shuffling/popping
+        name_groups = [list(group) for group in NAME_GROUPS]
+        job_groups = [list(group) for group in JOB_GROUPS]
         ages = list(AGES)
         symptoms = list(SYMPTOMS)
         situations = list(SITUATIONS)
@@ -34,8 +35,12 @@ class FactSheet:
         random.shuffle(situations)
 
         for _ in range(self.n_groups):
-            if not name_groups or not job_groups or not ages:
-                raise ValueError("n_groups is too big")
+            if not name_groups:
+                raise ValueError(f"Not enough name groups for n_groups={self.n_groups}")
+            if not job_groups:
+                raise ValueError(f"Not enough job groups for n_groups={self.n_groups}")
+            if not ages:
+                raise ValueError(f"Not enough ages for n_groups={self.n_groups}")
 
             self.factoids.append(
                 self._generate_factoid_group(
@@ -52,7 +57,7 @@ class FactSheet:
     def _generate_factoid_group(
         n_per_group: int,
         name_group: List[str],
-        job_group: List[str],
+        job_group: List[Job],
         age: str,
         symptoms: List[str],
         situations: List[str],
@@ -63,21 +68,26 @@ class FactSheet:
         random.shuffle(job_group)
 
         for _ in range(n_per_group):
-            if not name_group or not job_group:
-                raise ValueError("n_per_group is too big")
-            if not symptoms or not situations:
-                raise ValueError("n_groups * n_per_group is too big")
+            if not name_group:
+                raise ValueError("Not enough names in group")
+            if not job_group:
+                raise ValueError("Not enough jobs in group")
+            if not symptoms:
+                raise ValueError("Not enough symptoms globally")
+            if not situations:
+                raise ValueError("Not enough situations globally")
 
-            gender = random.choice([0, 1])
+            gender = random.choice(list(Gender))
+            job_obj = job_group.pop()
 
             factoid_group.append(
                 Factoid(
-                    gender,
-                    name_group.pop(),
-                    age,
-                    job_group.pop()[gender],
-                    symptoms.pop(),
-                    situations.pop(),
+                    gender=gender,
+                    name=name_group.pop(),
+                    age=age,
+                    job=job_obj.get_title(gender),
+                    symptom=symptoms.pop(),
+                    situation=situations.pop(),
                 )
             )
 

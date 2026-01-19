@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+from enums import Gender
 
 
 @dataclass
 class Factoid:
-    gender: int  # 0: Herr, 1: Frau
+    gender: Gender
     name: str
     age: str
     job: str
@@ -11,4 +12,14 @@ class Factoid:
     situation: str
 
     def __str__(self) -> str:
-        return f"{["Herr", "Frau"][self.gender]} {self.name}:\t\t{self.age},\t\t{self.job}, {self.situation}\t-\t{self.symptom}"
+        salutation = "Herr" if self.gender == Gender.MALE else "Frau"
+        full_name = f"{salutation} {self.name}:"
+
+        # Adjust padding values as needed for optimal display
+        return (
+            f"{full_name:<15} "
+            f"{self.age:<15} "
+            f"{self.job + ',':<25} "
+            f"{self.situation:<20} "
+            f"- {self.symptom}"
+        )
