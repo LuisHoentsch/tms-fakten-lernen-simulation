@@ -3,6 +3,7 @@ from typing import List, Set, Tuple
 import random
 from enums import Gender
 from Factoid import Factoid
+from data import QUESTION_TEMPLATES
 
 @dataclass
 class Question:
@@ -32,67 +33,6 @@ class QuestionGenerator:
     def _get_patient_noun(self, gender: Gender) -> str:
         return "Patient" if gender == Gender.MALE else "Patientin"
 
-    def _apply_template(self, template_id: int, f: Factoid) -> Tuple[str, str, str]:
-        """
-        Returns (question_text, correct_answer_text, answer_type_key)
-        """
-        article = self._get_article(f.gender)
-        noun = self._get_patient_noun(f.gender)
-        age_formatted = self._format_age(f.age)
-
-        if template_id == 1:
-            # Wie heißt <der/die> <Patient/Patientin> mit <Symptom>? <Name>
-            q = f"Wie heißt {article} {noun} mit {f.diagnosis}?"
-            return q, f.name, 'name'
-
-        elif template_id == 2:
-            # Wie heißt <der/die> <Beruf>? <Name>
-            q = f"Wie heißt {article} {f.job}?"
-            return q, f.name, 'name'
-
-        elif template_id == 3:
-            # <Der/die> <Patient/Patientin> mit <Symptom> ist? <Beruf>
-            q = f"{article.capitalize()} {noun} mit {f.diagnosis} ist?"
-            return q, f.job, 'job'
-
-        elif template_id == 4:
-            # Welchen Beruf hat <der/die> <Patient/Patientin>, <der/die> <Situation> ist? <Beruf>
-            q = f"Welchen Beruf hat {article} {noun}, {article} {f.situation} ist?"
-            return q, f.job, 'job'
-
-        elif template_id == 5:
-            # <Der/die> <Patient/Patientin> mit <Symptom> ist? <Situation>
-            q = f"{article.capitalize()} {noun} mit {f.diagnosis} ist?"
-            return q, f.situation, 'situation'
-
-        elif template_id == 6:
-            # <Der/die> <Beruf> ist? <Situation>
-            q = f"{article.capitalize()} {f.job} ist?"
-            return q, f.situation, 'situation'
-
-        elif template_id == 7:
-            # Welche Diagnose hat <der/die> <Beruf>? <Symptom>
-            q = f"Welche Diagnose hat {article} {f.job}?"
-            return q, f.diagnosis, 'diagnosis'
-
-        elif template_id == 8:
-            # Welche Diagnose hat <der/die> <Patient/Patientin>, <der/die> <Situation> ist? <Symptom>
-            q = f"Welche Diagnose hat {article} {noun}, {article} {f.situation} ist?"
-            return q, f.diagnosis, 'diagnosis'
-
-        elif template_id == 9:
-            # Wie alt ist <der/die> <Patient/Patientin> mit <Symptom>? <Alter>
-            q = f"Wie alt ist {article} {noun} mit {f.diagnosis}?"
-            return q, age_formatted, 'age'
-
-        elif template_id == 10:
-            # Wie alt ist <der/die> <Patient/Patientin>, <der/die> <Situation> ist? <Alter>
-            q = f"Wie alt ist {article} {noun}, {article} {f.situation} ist?"
-            return q, age_formatted, 'age'
-
-        else:
-            raise ValueError(f"Unknown template_id: {template_id}")
-
     def _get_pool(self, key: str) -> List[str]:
         if key == 'name':
             return self.names
@@ -113,33 +53,66 @@ class QuestionGenerator:
             distractors = random.sample(options, 4)
         else:
             distractors = options
-            # If we strictly need 5 options, we might need to handle this.
-            # But assuming the dataset is large enough as per analysis.
 
         final_options = distractors + [correct]
         random.shuffle(final_options)
         return final_options
 
+    def _format_question(self, template: Tuple[str, str], f: Factoid) -> Tuple[str, str, str]:
+        """
+        Formats the question string and retrieves the correct answer.
+        Returns (question_text, correct_answer_text, answer_type_key)
+        """
+        pattern, answer_key = template
+
+        article = self._get_article(f.gender)
+        noun = self._get_patient_noun(f.gender)
+        formatted_age = self._format_age(f.age)
+
+        context = {
+            "article": article,
+            "Article": article.capitalize(),
+            "noun": noun,
+            "job": f.job,
+            "diagnosis": f.diagnosis,
+            "situation": f.situation,
+            "age": formatted_age,
+            "name": f.name
+        }
+
+        # Format the question string
+        question_text = pattern.format(**context)
+
+        # Retrieve correct answer
+        # For age, we need the formatted version, not the raw one from f.age
+        if answer_key == "age":
+            correct_answer = formatted_age
+        else:
+            correct_answer = getattr(f, answer_key)
+
+        return question_text, correct_answer, answer_key
+
     def generate_questions(self, num_questions: int = 20) -> List[Question]:
         questions = []
-        used_combinations: Set[Tuple[int, int]] = set() # (template_id, factoid_index)
+        used_combinations: Set[Tuple[int, int]] = set() # (template_index, factoid_index)
 
-        # Safety counter to prevent infinite loop
         attempts = 0
         max_attempts = num_questions * 50
 
         while len(questions) < num_questions and attempts < max_attempts:
             attempts += 1
 
-            # Pick random template (1-10) and random factoid
-            t_id = random.randint(1, 10)
+            # Pick random template index and random factoid index
+            t_idx = random.randint(0, len(QUESTION_TEMPLATES) - 1)
             f_idx = random.randint(0, len(self.factoids) - 1)
 
-            if (t_id, f_idx) in used_combinations:
+            if (t_idx, f_idx) in used_combinations:
                 continue
 
             f = self.factoids[f_idx]
-            q_text, correct, q_type = self._apply_template(t_id, f)
+            template = QUESTION_TEMPLATES[t_idx]
+
+            q_text, correct, q_type = self._format_question(template, f)
             pool = self._get_pool(q_type)
 
             options = self._generate_options(correct, pool)
@@ -149,6 +122,6 @@ class QuestionGenerator:
                 options=options,
                 correct_answer=correct
             ))
-            used_combinations.add((t_id, f_idx))
+            used_combinations.add((t_idx, f_idx))
 
         return questions

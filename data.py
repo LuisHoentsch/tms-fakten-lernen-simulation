@@ -122,3 +122,48 @@ SITUATIONS = (
     "verheiratet",
     "geschieden",
 )
+
+# Template structure: (Pattern, Answer Key)
+# Placeholders: {article}, {Article}, {noun}, {job}, {diagnosis}, {situation}, {age}
+QUESTION_TEMPLATES = (
+    (
+        "Wie heißt {article} {noun} mit {diagnosis}?",
+        "name"
+    ),
+    (
+        "Wie heißt {article} {job}?",
+        "name"
+    ),
+    (
+        "{Article} {noun} mit {diagnosis} ist?",
+        "job"
+    ),
+    (
+        "Welchen Beruf hat {article} {noun}, {article} {situation} ist?",
+        "job"
+    ),
+    (
+        "{Article} {noun} mit {diagnosis} ist?",
+        "situation"
+    ),
+    (
+        "{Article} {job} ist?",
+        "situation"
+    ),
+    (
+        "Welche Diagnose hat {article} {job}?",
+        "diagnosis"
+    ),
+    (
+        "Welche Diagnose hat {article} {noun}, {article} {situation} ist?",
+        "diagnosis"
+    ),
+    (
+        "Wie alt ist {article} {noun} mit {diagnosis}?",
+        "age"
+    ),
+    (
+        "Wie alt ist {article} {noun}, {article} {situation} ist?",
+        "age"
+    ),
+)
